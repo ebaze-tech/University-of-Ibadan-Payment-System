@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (forced-colors: active) {
+body {
+  font-family: "Poppins", sans-serif;
+  background: #fbfff4;
+  background-color: black;
+  color: white;
+  margin: 0;
+}
+}
