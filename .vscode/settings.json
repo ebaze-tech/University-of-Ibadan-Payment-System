@@ -1,0 +1,19 @@
+{
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 100,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "ui-pay",
+      "database": "usermanagement",
+      "username": "root",
+      "password": "U1PAYM3NETSYST3M",
+      "connectionTimeout": 50
+    }
+  ]
+}

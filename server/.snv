@@ -1,0 +1,39 @@
+# ID="425706117300-g3b5dbaivkp4cf0vi0r2ss8641dvdvvc.apps.googleusercontent.com"
+# SECRET="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"
+# DB_URI="mongodb+srv://UI-PAY:U1S3RV3RPAY@ui-pay-server.8l6raaq.mongodb.net/?retryWrites=true&w=majority&appName=UI-PAY-SERVER"
+# CLOUDINARY_URI=CLOUDINARY_URL=cloudinary://532239585718765:JQ2IwbNyaleM8ptnSpABBodLcpw@dalqel7jb
+# # EMAIL="ebaze.technologies@gmail.com"
+# # EMAIL_PASSWORD="Toluwanimi'05"
+# BASE_URL=http://localhost/verify
+# HOST=smtp.gmail.com
+# PORT=8080
+# USER=ebaze.technologies@gmail.com
+# JWT_SECRET=e27351809ba66fe6cd5122da95839278d8e095bd6ee9b5d0e235cfe82e26c7663b7f058fab7deadca1641f6ded55f8c7a4be2a58de2338d76ea05efb05c0ac97
+# # PASS="Toluwanimi'05"
+# FROM=ebaze.technologies@gmail.com
+# SERVICE=gmail
+# PASS=jhnbxhgfqbphcrwg
+# CALLBACK_URL=http://localhost/itemsPay
+# NGROK_AUTHTOKEN=2hTFQbLwcNrcfpADgr8l5vD8Z2Q_4UP3bDA8NgzQxbe3CjWAb
+# CLOUDINARY_SECRET=JQ2IwbNyaleM8ptnSpABBodLcpw
+# CLOUDINARY_KEY=532239585718765
+# CLOUDINARY_NAME=UI_PAY
+PORT=5000
+JWT_SECRET=e27351809ba66fe6cd5122da95839278d8e095bd6ee9b5d0e235cfe82e26c7663b7f058fab7deadca1641f6ded55f8c7a4be2a58de2338d76ea05efb05c0ac97
+GOOGLE_CLIENT_ID=660983091583-h8q6io9okkv9rd7ecqhdg49k60m0ib5a.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+EMAIL_USER=ebaze.technologies@gmail.com
+EMAIL_PASS=jhnbxhgfqbphcrwg
+# MONGO_URI=mongodb+srv://UI-PAY:U1S3RV3RPAY@ui-pay-server.8l6raaq.mongodb.net/?retryWrites=true&w=majority&appName=UI-PAY-SERVER
+# MONGO_URI=mongodb+srv://UI-PAY-SERVER:U1S3RV3RPAY@ui-payment-server.bgpcbkc.mongodb.net/?retryWrites=true&w=majority&appName=UI-PAYMENT-SERVER
+MONGO_URI=mongodb+srv://UI-PAY:U1S3RV3RPAY@ui-pay-server.8l6raaq.mongodb.net/?retryWrites=true&w=majority&appName=UI-PAY-SERVER
+SECRET=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"
+
+{
+    "number": "124598",
+    "email": "some@some.com",
+    "role": "Student",
+    "password": "AbC@12"
+# }865070833558-93uajoct6i2bpqk3fuvuhoi8oqi2ounm.apps.googleusercontent.com
+
+
