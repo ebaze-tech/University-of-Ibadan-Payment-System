@@ -22,7 +22,7 @@ class UserController {
   } else if (/^\d{8}$/.test(number)) {
     determinedRole = 'Admin';
   } else {
-      return res.status(400).json({ error: 'Invalid number format' });
+      return res.status(400).json({ error: 'Invalid number format for the given role.' });
   }
 
   // Check if user already exists.
@@ -40,7 +40,7 @@ class UserController {
   const userId = await User.create({
     email,
     password: hashedPassword,
-    role,
+    role: determinedRole,
     number
   });
 

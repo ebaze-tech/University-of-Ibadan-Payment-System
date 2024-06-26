@@ -8,7 +8,7 @@ class User {
       const connection = await db.getConnection();
       const [rows] = await connection.execute(
         'INSERT INTO users (email, password, number,google_id, role) VALUES (?,?,?,?,?)',
-        [email, password, number, googleId, role]
+        [email, password, number, googleId || null, role]
       );
       connection.release();
       return rows.insertId;
