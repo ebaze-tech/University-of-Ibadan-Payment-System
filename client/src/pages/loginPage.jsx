@@ -67,7 +67,7 @@ function LoginPage() {
     // };
     try {
       console.log("Sending login request", loginData);
-      const response = await fetch("http://localhost:5000/auth/login", {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),
@@ -99,7 +99,7 @@ function LoginPage() {
   const handleGoogleSuccess = async (response) => {
     const { credential } = response;
     try {
-      const res = await fetch("http://localhost:5000/auth/google", {
+      const res = await fetch("http://localhost:5000/api/auth/google", {
         method: "POST",
         body: JSON.stringify({ token: credential }),
         headers: { "Content-Type": "application/json" },

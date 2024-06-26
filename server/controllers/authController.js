@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const User = require('../models/user');
+const User = require('../models/userModel');
 
 class AuthController {
   static async login(req, res) {
@@ -12,7 +12,7 @@ class AuthController {
         }
         if(!user){
           return res.status(401).json({
-            message: 'Incorrect email or password'
+            message: info.message
           });
         }
         req.login(user, (err) =>{

@@ -9,8 +9,8 @@ class GoogleController {
 
   static googleCallback (req, res) {
     passport.authenticate('google', {
-      successRedirect: '/itemsPay',
-      failureRedirect: '/'
+      successRedirect: '/itemsPay', //Redirect on successful authentication.
+      failureRedirect: '/' //Redirect on failure.
     })(req, res);
   }
 }

@@ -22,7 +22,7 @@ function RegistrationPage() {
   const handleGoogleSuccess = async (response) => {
     const { credential } = response;
     try {
-      const res = await axios.post("http://localhost:5000/auth/google", {access_token});
+      const res = await axios.post("http://localhost:5000/api/auth/google", {access_token});
       console.log('Backend response: ', res.data);
       const data = await res.json();
       if (res.ok) {
@@ -83,7 +83,7 @@ function RegistrationPage() {
     console.log({ number, email, password, role });
 
     try {
-      const response = await fetch("http://localhost:5000/auth/register", {
+      const response = await fetch("http://localhost:5000/api/users/register", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'

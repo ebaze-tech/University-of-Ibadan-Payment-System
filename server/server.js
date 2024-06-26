@@ -4,7 +4,10 @@ const passport = require('passport');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
-const routes = require('./routes');
+const UserRoutes = require('./routes/userRoutes');
+const AuthRoutes = require('./routes/authRoutes');
+const GoogleOAuthRoutes = require('./routes/googleOAuthRoute');
+
 const db = require('./config/db');
 require('dotenv').config();
 
@@ -38,7 +41,25 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use('/api', routes);
+app.use('/api/user', UserRoutes);
+app.use('/api/auth', AuthRoutes);
+app.use('/api/google', GoogleOAuthRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!' });
+});
+
+// Start MySQL server
+db.getConnection((err, connection) => {
+  if(err){
+    console.error('Error connecting to database: ' + err.stack);
+    return;
+  }
+  console.log('Connected to database as id ' + connection.threadId);
+  connection.release();
+})
 
 // Start server
 app.listen(PORT, () => {
