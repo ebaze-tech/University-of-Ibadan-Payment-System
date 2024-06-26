@@ -52,14 +52,19 @@ app.use((err, req, res, next) => {
 });
 
 // Start MySQL server
-db.getConnection((err, connection) => {
-  if(err){
-    console.error('Error connecting to database: ' + err.stack);
-    return;
+db.getConnection((error, connection) => {
+  if(error){
+    console.error('Error connecting to database: ', error);
+   throw error;
   }
-  console.log('Connected to database as id ' + connection.threadId);
+  console.log('Connected to MySQL database');
   connection.release();
 })
+
+// SQL database listener
+db.on('error', (err) => {
+  console.error('MySQL pool error: ', err);
+});
 
 // Start server
 app.listen(PORT, () => {
