@@ -9,11 +9,14 @@ class User {
       throw new Error('Invalid number length. Must be 4, 5, 6, or 8 characters.');
     }
 
+    // Determine the user role based on the number length
+    const role = this.getUserType(number);
+
     try {
       const connection = await db.getConnection();
       const [rows] = await connection.execute(
-        'INSERT INTO users (email, password, number) VALUES (?,?,?)',
-        [email, password, number]
+        'INSERT INTO users (email, password, number, role) VALUES (?,?,?,?)',
+        [email, password, number, role]
       );
       connection.release();
       return rows.insertId;
@@ -24,6 +27,10 @@ class User {
 
   static async findByEmail(email) {
     try {
+      if (!email) {
+        throw new Error('Email is required to find user.');
+      }
+
       const connection = await db.getConnection();
       const [rows] = await connection.execute(
         'SELECT * FROM users WHERE email = ?',

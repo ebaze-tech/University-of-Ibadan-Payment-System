@@ -4,11 +4,14 @@ const UserModel = require('../models/userModel');
 class UserController {
   static async register(req, res) {
     const { email, password, number } = req.body;
+    // Validate the number length
+    if (![4, 5, 6, 8].includes(number.length)) {
+      return res.status(400).json({
+        message: 'Invalid number length. Must be 4, 5, 6, or 8 characters.'
+      });
+    }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
     try {
-
       // Check if user already exists.
       let user = await UserModel.findByEmail((email));
       if (user) {
@@ -16,13 +19,8 @@ class UserController {
           message: 'User with this email already exists.'
         })
       }
-
-      // Validate the number length
-      if (![4, 5, 6, 8].includes(number.length)) {
-        return res.status(400).json({
-          message: 'Invalid number length. Must be 4, 5, 6, or 8 characters.'
-        });
-      }
+      // Hash password
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       // Create user
       const newUser = await UserModel.create({
@@ -32,12 +30,13 @@ class UserController {
       });
 
       res.status(201).json({
-        newUser, message: 'User registered successfully.'
+        newUser,
+        message: 'User registered successfully.'
       });
     } catch (error) {
       console.error(error);
       res.status(500).json({
-        error: err.message
+        error: error.message
       });
     }
   }

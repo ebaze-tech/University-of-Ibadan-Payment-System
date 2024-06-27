@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const cors = require('cors');
@@ -10,11 +9,14 @@ require('dotenv').config();
 
 const PORT = process.env.PORT || 6377;
 
-// Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Middleware to parse URL-encoded bodies
+app.use(express.urlencoded({
   extended: true
 }));
+
 
 // CORS configuration
 const corsOptions = {
@@ -44,26 +46,25 @@ app.use("/api", Routes);
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Something went wrong!' });
-});
-
-// Test MySQL connection at startup
-db.getConnection()
-.then(connection => {
-  console.log('Connected to MySQL database');
-  connection.release();
-})
-.catch(error => {
-  console.error('Error connecting to database: ', error);
-  process.exit(1); //Exit process if connection fails
+  next();
 });
 
 // Default backend route "/"
 app.get('/', (req, res) => {
   console.log("This is the API!");
-  res.send({
-    message: 'This is the API!'
-  })
+  res.send('This is the API!');
 });
+
+// Test MySQL connection at startup
+db.getConnection()
+  .then(connection => {
+    console.log('Connected to MySQL database');
+    connection.release();
+  })
+  .catch(error => {
+    console.error('Error connecting to database: ', error);
+    process.exit(1); //Exit process if connection fails
+  });
 
 // Start server
 app.listen(PORT, () => {
