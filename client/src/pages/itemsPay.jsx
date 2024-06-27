@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Nav from "../../components/Nav";
+import Nav from "../components/Nav";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 // import CardProcessing from "../cardProcessing";
