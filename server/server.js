@@ -4,14 +4,11 @@ const passport = require('passport');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
-const UserRoutes = require('./routes/userRoutes');
-const AuthRoutes = require('./routes/authRoutes');
-const GoogleOAuthRoutes = require('./routes/googleOAuthRoute');
-
+const Routes = require('./routes/routes');
 const db = require('./config/db');
 require('dotenv').config();
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 6377;
 
 // Middleware
 app.use(bodyParser.json());
@@ -41,9 +38,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use('/api/user', UserRoutes);
-app.use('/api/auth', AuthRoutes);
-app.use('/api/google', GoogleOAuthRoutes);
+app.use("/api", Routes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -51,19 +46,23 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// Start MySQL server
-db.getConnection((error, connection) => {
-  if(error){
-    console.error('Error connecting to database: ', error);
-   throw error;
-  }
+// Test MySQL connection at startup
+db.getConnection()
+.then(connection => {
   console.log('Connected to MySQL database');
   connection.release();
 })
+.catch(error => {
+  console.error('Error connecting to database: ', error);
+  process.exit(1); //Exit process if connection fails
+});
 
-// SQL database listener
-db.on('error', (err) => {
-  console.error('MySQL pool error: ', err);
+// Default backend route "/"
+app.get('/', (req, res) => {
+  console.log("This is the API!");
+  res.send({
+    message: 'This is the API!'
+  })
 });
 
 // Start server

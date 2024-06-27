@@ -2,13 +2,18 @@ const db = require('../config/db');
 
 class User {
   static async create({
-    email, password, number, role, googleId
+    email, password, number
   }) {
+    // Validate the number length
+    if (![4, 5, 6, 8].includes(number.length)) {
+      throw new Error('Invalid number length. Must be 4, 5, 6, or 8 characters.');
+    }
+
     try {
       const connection = await db.getConnection();
       const [rows] = await connection.execute(
-        'INSERT INTO users (email, password, number,google_id, role) VALUES (?,?,?,?,?)',
-        [email, password, number, googleId || null, role]
+        'INSERT INTO users (email, password, number) VALUES (?,?,?)',
+        [email, password, number]
       );
       connection.release();
       return rows.insertId;
@@ -17,7 +22,7 @@ class User {
     }
   }
 
-  static async findByEmail(email){
+  static async findByEmail(email) {
     try {
       const connection = await db.getConnection();
       const [rows] = await connection.execute(
@@ -25,37 +30,37 @@ class User {
         [email]
       );
       connection.release();
-      return rows.length > 0 ? rows [0] : null;
+      return rows.length > 0 ? rows[0] : null;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  static async findByGoogleId(googleId){
-    try{
-      const connection = await db.getConnection();
-      const [rows] = await connection.execute(
-        'SELECT * FROM users WHERE google_id = ?',
-        [googleId]
-      );
-      connection.release();
-      return rows.length > 0 ? rows[0] : null;
-    } catch(error) {
-      throw new Error(error.message);
-    }
-  }
-
   static async findById(id) {
-    try{
+    try {
       const connection = await db.getConnection();
       const [rows] = await connection.execute(
-        "SELECT * FROM users WHERE id = ?",
+        'SELECT * FROM users WHERE id = ?',
         [id]
       );
       connection.release();
       return rows.length > 0 ? rows[0] : null;
-    } catch(error) {
+    } catch (error) {
       throw new Error(error.message);
+    }
+  }
+
+  static getUserType(number) {
+    switch (number.length) {
+      case 6:
+        return 'Student';
+      case 4:
+      case 5:
+        return 'Staff';
+      case 8:
+        return 'Admin';
+      default:
+        throw new Error('Invalud number length.');
     }
   }
 }

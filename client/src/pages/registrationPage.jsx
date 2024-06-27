@@ -1,45 +1,44 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
-import { AuthContext } from "../components/authContext";
+// import { AuthContext } from "../components/authContext";
 import Logo from "../assets/items_logo.svg";
 import LoadingSpinner from "../components/loadingSpinner";
 import { IoIosHelpCircle } from "react-icons/io";
-import axios from "axios";
+// import axios from "axios";
 
 function RegistrationPage() {
   const [error, setError] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  // const [role, setRole] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useContext(AuthContext);
+  // const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const clientId = '660983091583-h8q6io9okkv9rd7ecqhdg49k60m0ib5a.apps.googleusercontent.com';
+  // const clientId = '660983091583-h8q6io9okkv9rd7ecqhdg49k60m0ib5a.apps.googleusercontent.com';
 
-  const handleGoogleSuccess = async (response) => {
-    const { credential } = response;
-    try {
-      const res = await axios.post("http://localhost:5000/api/auth/google", {access_token});
-      console.log('Backend response: ', res.data);
-      const data = await res.json();
-      if (res.ok) {
-        login(data.token);
-        navigate("/itemsPay");
-      } else {
-        setError(data.error);
-      }
-    } catch (err) {
-      setError("Google login failed");
-    }
-  };
+  // const handleGoogleSuccess = async (response) => {
+  //   const { credential } = response;
+  //   try {
+  //     const res = await axios.post("http://localhost:5000/api/auth/google", {access_token});
+  //     console.log('Backend response: ', res.data);
+  //     const data = await res.json();
+  //     if (res.ok) {
+  //       login(data.token);
+  //       navigate("/itemsPay");
+  //     } else {
+  //       setError(data.error);
+  //     }
+  //   } catch (err) {
+  //     setError("Google login failed");
+  //   }
+  // };
 
-  const handleGoogleFailure = (response) => {
-    setError("Google login failed");
-    console.error('Google login failed: ', response);
-  };
+  // const handleGoogleFailure = (response) => {
+  //   setError("Google login failed");
+  //   console.error("Google login failed: ", response);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,7 +68,7 @@ function RegistrationPage() {
       setIsLoading(false);
       return;
     }
-    if (!email || !number || !password || !role) {
+    if (!email || !number || !password ) {
       setError("All fields are required.");
       setIsLoading(false);
       return;
@@ -80,16 +79,16 @@ function RegistrationPage() {
     // const password = formData.get("password");
     // const role = formData.get("role");
 
-    console.log({ number, email, password, role });
+    console.log({ number, email, password });
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/register", {
+      const response = await fetch("http://localhost:5000/api/register", {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, number, role }),
-        credentials: 'include',
+        body: JSON.stringify({ email, password, number }),
+        credentials: "include",
       });
 
       // const data = await res.json();
@@ -98,7 +97,7 @@ function RegistrationPage() {
         const data = await response.json();
         setError(data.error);
       } else {
-        navigate("/verify");
+        navigate("/login");
       }
     } catch (err) {
       console.error(err);
@@ -143,7 +142,8 @@ function RegistrationPage() {
               {error && (
                 <div className="bg-red-200 text-red-700 px-4 py-3 rounded mb-4">
                   {error}
-                </div>)}
+                </div>
+              )}
               <input
                 className=" w-{3rem} h-12 text-center text-md px-12 border-red border-solid bg-gray-200 rounded-lg"
                 type="text"
@@ -168,7 +168,7 @@ function RegistrationPage() {
             onChange={(e) => setRole(e.target.value)}
             required
           /> */}
-              <input
+               <input
                 className=" w-{3rem} h-12 text-center text-md px-12 border-red border-solid bg-gray-200 rounded-lg"
                 type="password"
                 placeholder="Password"
@@ -176,7 +176,7 @@ function RegistrationPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <select
+              {/*<select
                 id="role"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
@@ -186,17 +186,17 @@ function RegistrationPage() {
                 <option value="">Select Role</option>
                 <option value="Student">Student</option>
                 <option value="Staff">Staff</option>
-              </select>
+              </select> */}
               <button
                 className="w-{4rem} h-12 bg-blue-500 hover:bg-blue-700 text-black mt-4 px-28 justify-center items-center text-center rounded-xl text-md"
                 type="submit"
               >
-            {isLoading ? <LoadingSpinner /> : "Register"}
+                {isLoading ? <LoadingSpinner /> : "Register"}
               </button>
             </form>
           </div>
 
-          <div className="mt-4 text-center">
+          {/* <div className="mt-4 text-center">
             <GoogleLogin
               clientId={clientId}
               buttonText="Register with Google"
@@ -208,11 +208,13 @@ function RegistrationPage() {
             <div className="">
               <p className="">
                 <IoIosHelpCircle className="">
-                  <Link to='/help' className="text-blue-600 hover:underline">Need help?</Link>
+                  <Link to="/help" className="text-blue-600 hover:underline">
+                    Need help?
+                  </Link>
                 </IoIosHelpCircle>
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ function LoginPage() {
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  // const [role, setRole] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useContext(AuthContext);
@@ -44,13 +44,13 @@ function LoginPage() {
       setIsLoading(false);
       return;
     }
-    if (!email || !number || !password || !role) {
+    if (!email || !number || !password) {
       setError("All fields are required.");
       setIsLoading(false);
       return;
     }
 
-    const loginData = { number, email, password, role };
+    const loginData = { number, email, password };
 
     // const number = formData.get("number");
     // const email = formData.get("email");
@@ -67,7 +67,7 @@ function LoginPage() {
     // };
     try {
       console.log("Sending login request", loginData);
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("http://localhost:5000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),
@@ -82,11 +82,10 @@ function LoginPage() {
         setError(data.error);
         alert("Login failed: " + data.error);
       } else {
-        // Handle successful login here
         console.log("Login successful", data);
-        // alert(data.message);
+        alert(data.message);
         login(data.token);
-        navigate("/dashboard");
+        navigate("/homePage");
       }
     } catch (error) {
       console.error("Failed to fetch", error);
@@ -96,31 +95,31 @@ function LoginPage() {
     }
   }
 
-  const handleGoogleSuccess = async (response) => {
-    const { credential } = response;
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/google", {
-        method: "POST",
-        body: JSON.stringify({ token: credential }),
-        headers: { "Content-Type": "application/json" },
-      });
+  // const handleGoogleSuccess = async (response) => {
+  //   const { credential } = response;
+  //   try {
+  //     const res = await fetch("http://localhost:5000/api/auth/google", {
+  //       method: "POST",
+  //       body: JSON.stringify({ token: credential }),
+  //       headers: { "Content-Type": "application/json" },
+  //     });
 
-      const data = await res.json();
-      if (res.ok) {
-        login(data.token);
-        navigate("/dashboard");
-      } else {
-        setError(data.error);
-      }
-    } catch (error) {
-      setError("Google login failed.");
-    }
-  };
+  //     const data = await res.json();
+  //     if (res.ok) {
+  //       login(data.token);
+  //       navigate("/dashboard");
+  //     } else {
+  //       setError(data.error);
+  //     }
+  //   } catch (error) {
+  //     setError("Google login failed.");
+  //   }
+  // };
 
-  const handleGoogleFailure = (error) => {
-    console.error("Google login failed:", error);
-    setError("Google login failed.");
-  };
+  // const handleGoogleFailure = (error) => {
+  //   console.error("Google login failed:", error);
+  //   setError("Google login failed.");
+  // };
   // if (redirect) {
   //   return <Navigate to={"/itemsPay"} />;
   // }
