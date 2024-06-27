@@ -7,18 +7,18 @@ class UserController {
     // Validate the number length
     if (![4, 5, 6, 8].includes(number.length)) {
       return res.status(400).json({
-        message: 'Invalid number length. Must be 4, 5, 6, or 8 characters.'
+        message: 'Invalid number length.'
       });
     }
 
     try {
       // Check if user already exists.
-      let user = await UserModel.findByEmail((email));
+      let user = await UserModel.findByEmail(email);
       if (user) {
         return res.status(400).json({
           message: 'User with this email already exists.'
         })
-      }
+      };
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
 

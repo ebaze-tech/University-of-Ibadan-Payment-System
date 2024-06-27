@@ -18,28 +18,51 @@ class User {
         'INSERT INTO users (email, password, number, role) VALUES (?,?,?,?)',
         [email, password, number, role]
       );
-      connection.release();
       return rows.insertId;
     } catch (error) {
       throw new Error(error.message);
+    } finally {
+      if(connection){
+        connection.release();
+      }
     }
   }
 
   static async findByEmail(email) {
+    if (!email) {
+      throw new Error('Email is required to find user.');
+    }
     try {
-      if (!email) {
-        throw new Error('Email is required to find user.');
-      }
-
       const connection = await db.getConnection();
       const [rows] = await connection.execute(
         'SELECT * FROM users WHERE email = ?',
         [email]
       );
-      connection.release();
       return rows.length > 0 ? rows[0] : null;
     } catch (error) {
       throw new Error(error.message);
+    } finally {
+      if(connection) {
+        connection.release();
+      }
+    }
+  }
+
+  static async findByNumber(number){
+    if(!number){
+      throw new Error('Number is required to find user');
+    }
+    try{
+      const connection = await db.getConnection();
+      const [rows] = await connection.execute(
+        'SELECT * FROM users WHERE number = ?',
+        [number]
+      );
+      return rows.length > 0 ? rows[0] : null;
+    } catch (error){
+      throw new Error(error.message);
+    } finally{
+      if(connection) connection.release();
     }
   }
 
@@ -50,10 +73,13 @@ class User {
         'SELECT * FROM users WHERE id = ?',
         [id]
       );
-      connection.release();
       return rows.length > 0 ? rows[0] : null;
     } catch (error) {
       throw new Error(error.message);
+    } finally{
+      if(connection){
+        connection.release();
+      }
     }
   }
 
@@ -67,7 +93,7 @@ class User {
       case 8:
         return 'Admin';
       default:
-        throw new Error('Invalud number length.');
+        throw new Error('Invalid number length.');
     }
   }
 }
