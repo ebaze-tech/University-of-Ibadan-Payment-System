@@ -5,6 +5,7 @@ const cors = require('cors');
 const app = express();
 const Routes = require('./routes/routes');
 const db = require('./config/db');
+const path = require('path');
 require('dotenv').config();
 
 const PORT = process.env.PORT || 6377;
@@ -17,6 +18,9 @@ app.use(express.urlencoded({
   extended: true
 }));
 
+// Static folder to server uploaded files
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images')));
+app.use('/uploads/pdfs', express.static(path.join(__dirname, 'uploads/pdfs')));
 
 // CORS configuration
 const corsOptions = {

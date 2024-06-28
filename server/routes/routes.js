@@ -5,7 +5,14 @@ const StudentController = require('../controllers/studentController');
 const StaffController = require('../controllers/staffController');
 const StudentIdApplicationController = require('../controllers/studentIdApplicationController');
 const StaffIdApplicationController = require('../controllers/staffIdApplicationController');
+const ImageController = require('../controllers/imageController');
+const PdfController = require('../controllers/pdfController');
 
+// Image upload
+router.post('/image-upload', ImageController.uploadImage);
+
+// Document upload
+router.post('document-upload', PdfController.uploadPDF)
 
 // Admin registration route
 router.post('/admin-registration', AdminController.register);
