@@ -1,7 +1,9 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
-const UserModel = require('../models/userModel');
+const AdminModel = require('../models/adminModel');
+const StudentModel = require('../models/studentModel');
+const StaffModel = require('../models/staffModel');
 
 passport.use(
   new LocalStrategy({
@@ -10,15 +12,22 @@ passport.use(
     passReqToCallback: true
   }, async (req, email, password, done) => {
     try {
-      // Find user by email
-      const user = await UserModel.findByEmail(email);
+      // Attempt to find the user in Admin, Student, and Staff models
+      let user = await AdminModel.findByEmail(email);
+      if (!user) {
+        user = await StudentModel.findByEmail(email);
+      }
+      if (!user) {
+        user = await StaffModel.findByEmail(email);
+      }
 
+      // If user is not found in any model
       if (!user) {
         return done(null, false, {
           message: 'Incorrect email.'
         });
       }
-
+      
       // Compare password
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) {
@@ -33,6 +42,7 @@ passport.use(
       console.error(error);
       return done(error);
     }
+
   })
 );
 
@@ -42,7 +52,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await UserModel.findById(id);
+    const user = await AdminModel.findById(id) || await StudentModel.findById(id) || await StaffModel.findById(id);
     done(null, user);
   } catch (error) {
     done(error);

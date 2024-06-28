@@ -1,5 +1,5 @@
 const db = require('../config/db');
-
+const connection = require('../config/db');
 class User {
   static async create({
     email, password, number

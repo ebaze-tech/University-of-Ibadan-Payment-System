@@ -11,7 +11,7 @@ class StaffIdApplicationController {
       });
     }
 
-    if (numberRegex.test(number)) {
+    if (!numberRegex.test(number)) {
       return res.status(400).json({
         message: 'Wrong number length. Must be 4 or 5 digits.'
       })

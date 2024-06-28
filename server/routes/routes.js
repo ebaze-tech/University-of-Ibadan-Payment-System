@@ -1,22 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const UserController = require('../controllers/userController');
-const AuthController = require('../controllers/authController');
-const StudentIdApplicationController = require('../controllers/studentIdApplicationController')
-const StaffIdApplicationController = require('../controllers/staffIdApplicationController');
-const StudentUpdateController = require('../controllers/studentUpdateController');
-const StaffUpdateController = require('../controllers/staffUpdateController');
-const ReplaceStudentIdController = require('../controllers/replaceStudentIdController');
-const ReplaceStaffIdController = require('../controllers/replaceStaffIdController')
 const AdminController = require('../controllers/adminController');
-// Register route
-router.post('/register', UserController.register);
+const StudentController = require('../controllers/studentController');
+const StaffController = require('../controllers/staffController');
+const StudentIdApplicationController = require('../controllers/studentIdApplicationController');
+const StaffIdApplicationController = require('../controllers/staffIdApplicationController');
 
-// Login route
-router.post('/login', AuthController.login);
 
-// Logout route
-router.post('/logout', AuthController.logout);
+// Admin registration route
+router.post('/admin-registration', AdminController.register);
+
+// Student registration route
+router.post('/student-registration', StudentController.register);
+
+// Staff registration route
+router.post('/staff-registration', StaffController.register);
+
+// Student login route
+router.post('/student-login', StudentController.login);
+
+// Staff login route
+router.post('/staff-login', StaffController.login);
+
+// Admin registration route
+router.post('/admin-login', AdminController.login);
 
 // Student ID Card application route
 router.post('/apply-for-student-id', StudentIdApplicationController.apply);
@@ -25,17 +32,15 @@ router.post('/apply-for-student-id', StudentIdApplicationController.apply);
 router.post('/apply-for-staff-id', StaffIdApplicationController.apply);
 
 // Student ID card update route
-router.post('/update-student-id', StudentUpdateController.update);
+// router.post('/update-student-id', StudentUpdateController.update);
 
 // Staff ID card update route
-router.post('/update-staff-id', StaffUpdateController.update);
+// router.post('/update-staff-id', StaffUpdateController.update);
 
 // Student ID card replacement route
-router.post('/replace-student-id', ReplaceStudentIdController.replace);
+// router.post('/replace-student-id', ReplaceStudentIdController.replace);
 
 // Staff ID card replacement route
-router.post('/replace-staff-id', ReplaceStaffIdController.replace);
+// router.post('/replace-staff-id', ReplaceStaffIdController.replace);
 
-// Admin registration route
-router.post('/admin-register', AdminController.register);
 module.exports = router;
